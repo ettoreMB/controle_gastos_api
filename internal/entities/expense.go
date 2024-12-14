@@ -6,16 +6,17 @@ import (
 )
 
 type Expense struct {
-	ID                pkg_entities.UUID
-	Name              string
-	Value             float64
-	CategoryId        CategoryId
-	PaymentMethodId   PaymentMethodId
-	Type              string
-	Status            string
-	TransactionDate   string
-	InstallmentsCount int
-	IsInstallmentPlan bool
+	ID                 pkg_entities.UUID
+	Name               string
+	Value              float64
+	CategoryId         CategoryId
+	PaymentMethodId    PaymentMethodId
+	Type               string
+	Status             string
+	TransactionDate    string
+	IsInstallmentPlan  bool
+	InstallmentsCount  int
+	CurrentInstallment uint8
 }
 
 // CreateExpenseCommand - Name, Value CategoryId

@@ -15,3 +15,11 @@ func Test_CreatePaymentMethod_With_NoName_Error(t *testing.T) {
 
 	assert.Equal(t, entities.ErrPaymentMethodNameIsRequired, err)
 }
+
+func Test_CreatePaymentMethod_Success(t *testing.T) {
+	method, err := entities.NewPaymentMethod("novo metodo")
+	assert.NoError(t, err)
+
+	assert.Equal(t, method.Name, "novo metodo")
+	assert.NotNil(t, method.ID)
+}

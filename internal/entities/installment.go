@@ -1,3 +1,7 @@
 package entities
 
-type InstallMent stuct {}
+type InstallMent struct {
+	CreditCardId       CreditcardId
+	InstallmentsCount  int
+	CurrentInstallment uint8
+}

@@ -15,3 +15,13 @@ func NewUUIDFromString(id string) (*UUID, error) {
 	}
 	return &parsedId, nil
 }
+
+
+func NewIdStruct<T>(id string) (T, error) {
+	nid, err := pkg_entities.NewUUIDFromString(id)
+	if err != nil {
+		return CategoryId{}, err
+	}
+
+	return CategoryId(*nid), nil
+}

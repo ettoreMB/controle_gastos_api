@@ -6,43 +6,41 @@ import (
 )
 
 type Expense struct {
-	ID                 pkg_entities.UUID
-	Name               string
-	Value              float64
-	CategoryId         CategoryId
-	PaymentMethodId    PaymentMethodId
-	Type               string
-	Status             string
-	TransactionDate    string
-	IsInstallmentPlan  bool
-	InstallmentsCount  int
-	CurrentInstallment uint8
+	ID              pkg_entities.UUID
+	Name            string
+	Value           float32
+	CategoryId      CategoryId
+	PaymentMethodId PaymentMethodId
+	Type            string
+	Status          string
+	TransactionDate string
+	Installment     *InstallMent
 }
 
 // CreateExpenseCommand - Name, Value CategoryId
 
 type CreateExpenseCommand struct {
-	Name              string
-	Value             float64
-	CategoryId        CategoryId
-	PaymentMethodId   PaymentMethodId
-	IsInstallmentPlan bool
-	InstallmentsCount int
+	Name            string
+	Value           float32
+	CategoryId      CategoryId
+	PaymentMethodId PaymentMethodId
+	Installment     *InstallMent
 }
 
 func NewExpense(
 	command *CreateExpenseCommand,
 ) *Expense {
-	return &Expense{
-		ID:                pkg_entities.NewUUID(),
-		Name:              command.Name,
-		Value:             command.Value,
-		CategoryId:        command.CategoryId,
-		PaymentMethodId:   command.PaymentMethodId,
-		Type:              "expense",
-		Status:            "pending",
-		TransactionDate:   time.Now().Format("2006-01-02"),
-		IsInstallmentPlan: false,
-		InstallmentsCount: command.InstallmentsCount,
+	expense := &Expense{
+		ID:              pkg_entities.NewUUID(),
+		Name:            command.Name,
+		Value:           command.Value,
+		CategoryId:      command.CategoryId,
+		PaymentMethodId: command.PaymentMethodId,
+		Type:            "expense",
+		Status:          "pending",
+		TransactionDate: time.Now().Format("2006-01-02"),
+		Installment:     command.Installment,
 	}
+
+	return expense
 }

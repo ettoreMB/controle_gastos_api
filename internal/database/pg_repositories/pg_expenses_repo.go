@@ -3,6 +3,7 @@ package pg_repositories
 import (
 	"context"
 	"ettoreMB/controle_gastos/internal/entities"
+	pkg_entities "ettoreMB/controle_gastos/pkg/entities"
 	db "ettoreMB/controle_gastos/sqlc/db_out"
 
 	"github.com/jackc/pgx/v5"
@@ -16,6 +17,7 @@ type PGpensesRepository struct {
 func NewPGExpensesRepository(conn *pgx.Conn) *PGpensesRepository {
 	repo := &PGpensesRepository{db: nil, ctx: context.Background()}
 	repo.db = db.New(conn)
+	return repo
 
 }
 
@@ -37,10 +39,15 @@ func (r *PGpensesRepository) GetAll() ([]entities.Expense, error) {
 	result := make([]entities.Expense, len(expensesdb))
 
 	for _, e := range expensesdb {
+		categoryId, err := pkg_entities.NewUUIDFromString(string(e.CategoryID.Bytes))
+		if err != nil {
+			return nil, err
+		}
+
 		ex := entities.NewExpense(&entities.CreateExpenseCommand{
 			Name:                  e.Name,
 			Value:                 float32(e.Value),
-			CategoryId:            entities.New,
+			CategoryId:            entities.CategoryId(),
 			PaymentMethodId:       e.PaymentMethodID.String(),
 			Status:                e.Status.String(),
 			CreditCardId:          e.CreditCardID.String(),

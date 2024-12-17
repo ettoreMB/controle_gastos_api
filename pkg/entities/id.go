@@ -1,6 +1,10 @@
 package pkg_entities
 
-import "github.com/google/uuid"
+import (
+	"fmt"
+
+	"github.com/google/uuid"
+)
 
 type UUID = uuid.UUID
 
@@ -16,12 +20,12 @@ func NewUUIDFromString(id string) (*UUID, error) {
 	return &parsedId, nil
 }
 
-
-func NewIdStruct<T>(id string) (T, error) {
-	nid, err := pkg_entities.NewUUIDFromString(id)
+func NewIdStruct[T any](id string) (T, error) {
+	nid, err := NewUUIDFromString(id)
 	if err != nil {
-		return CategoryId{}, err
+		return *new(T), err
 	}
 
-	return CategoryId(*nid), nil
+	return T(&nid), err
 }
+

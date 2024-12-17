@@ -2,8 +2,8 @@ package pg_repositories
 
 import (
 	"context"
+	mapper "ettoreMB/controle_gastos/internal/database/mappers"
 	"ettoreMB/controle_gastos/internal/entities"
-	pkg_entities "ettoreMB/controle_gastos/pkg/entities"
 	db "ettoreMB/controle_gastos/sqlc/db_out"
 
 	"github.com/jackc/pgx/v5"
@@ -22,6 +22,7 @@ func NewPGExpensesRepository(conn *pgx.Conn) *PGpensesRepository {
 }
 
 func (r *PGpensesRepository) Create(expense entities.Expense) error {
+
 	// _, err := r.db.Exec("INSERT INTO expenses () VALUES (?, ?)", expense.Name, expense.Value, expense.CategoryId, expense.PaymentMethodId, expense.TransactionDate, expense) // Adjust the SQL
 	return nil
 }
@@ -36,39 +37,14 @@ func (r *PGpensesRepository) GetAll() ([]entities.Expense, error) {
 	if err != nil {
 		return nil, err
 	}
-	result := make([]entities.Expense, len(expensesdb))
+	expenses := make([]entities.Expense, len(expensesdb))
 
-	for _, e := range expensesdb {
-		categoryId, err := pkg_entities.NewUUIDFromString(string(e.CategoryID.Bytes))
+	for i, e := range expensesdb {
+		ex, err := mapper.ExpensePgToDomainMapper(e)
+		expenses[i] = *ex
 		if err != nil {
 			return nil, err
 		}
-
-		ex := entities.NewExpense(&entities.CreateExpenseCommand{
-			Name:                  e.Name,
-			Value:                 float32(e.Value),
-			CategoryId:            entities.CategoryId(),
-			PaymentMethodId:       e.PaymentMethodID.String(),
-			Status:                e.Status.String(),
-			CreditCardId:          e.CreditCardID.String(),
-			InstallmentCount:      e.InstallmentCount.Int32,
-			CurrentInstallment:    e.CurrentInstallment.Int32,
-			InstallmentCountValue: e.InstallmentCountValue.Float64,
-			TransactionDate:       e.TransactionDate.Time,
-		})
-		expenses = append(expenses, entities.Expense{
-			ID:                    expensesdb.ID.String(),
-			Name:                  expensesdb.Name,
-			Value:                 expensesdb.Value,
-			CategoryId:            expensesdb.CategoryID.String(),
-			PaymentMethodId:       expensesdb.PaymentMethodID.String(),
-			Status:                expensesdb.Status.String(),
-			CreditCardId:          expensesdb.CreditCardID.String(),
-			InstallmentCount:      expensesdb.InstallmentCount.Int32,
-			CurrentInstallment:    expensesdb.CurrentInstallment.Int32,
-			InstallmentCountValue: expensesdb.InstallmentCountValue.Float64,
-			TransactionDate:       expensesdb.TransactionDate.Time,
-		})
 	}
 
 	return expenses, nil

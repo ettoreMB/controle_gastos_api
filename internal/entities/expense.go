@@ -9,8 +9,8 @@ type Expense struct {
 	ID              pkg_entities.UUID
 	Name            string
 	Value           float32
-	CategoryId      CategoryId
-	PaymentMethodId PaymentMethodId
+	CategoryId      pkg_entities.UUID
+	PaymentMethodId pkg_entities.UUID
 	Type            string
 	Status          string
 	TransactionDate string
@@ -22,8 +22,8 @@ type Expense struct {
 type CreateExpenseCommand struct {
 	Name            string
 	Value           float32
-	CategoryId      CategoryId
-	PaymentMethodId PaymentMethodId
+	CategoryId      pkg_entities.UUID
+	PaymentMethodId pkg_entities.UUID
 	Installment     *InstallMent
 }
 

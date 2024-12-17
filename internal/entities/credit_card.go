@@ -10,17 +10,15 @@ var (
 	errInvalidDueDateDay = errors.New("duedateday is invalid")
 )
 
-type CreditcardId pkg_entities.UUID
-
 type CreditCard struct {
-	Id         CreditcardId
+	Id         pkg_entities.UUID
 	Name       string
 	DueDateDay int
 }
 
 func NewCreditCard(name string, duedate int) (*CreditCard, error) {
 	creditcard := &CreditCard{
-		Id:         CreditcardId(pkg_entities.NewUUID()),
+		Id:         pkg_entities.NewUUID(),
 		Name:       name,
 		DueDateDay: duedate,
 	}

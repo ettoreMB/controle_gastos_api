@@ -1,14 +1,16 @@
 package entities
 
+import pkg_entities "ettoreMB/controle_gastos/pkg/entities"
+
 type InstallMent struct {
-	CreditCardId       CreditcardId
+	CreditCardId       pkg_entities.UUID
 	InstallmentsCount  int
 	CurrentInstallment uint8
 	TotalValue         float32
 	CountPrice         float32
 }
 
-func NewStallment(creditcardId CreditcardId, counts int, value float32) *InstallMent {
+func NewStallment(creditcardId pkg_entities.UUID, counts int, value float32) *InstallMent {
 	st := &InstallMent{
 		CreditCardId:       creditcardId,
 		InstallmentsCount:  counts,

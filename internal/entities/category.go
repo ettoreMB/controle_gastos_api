@@ -9,16 +9,14 @@ var (
 	ErrCategoryNameIsRequired = errors.New("category name is required")
 )
 
-type CategoryId pkg_entities.UUID
-
 type Category struct {
-	ID   CategoryId
+	ID   pkg_entities.UUID
 	Name string
 }
 
 func NewCategory(name string) (*Category, error) {
 	category := &Category{
-		ID:   CategoryId(pkg_entities.NewUUID()),
+		ID:   pkg_entities.NewUUID(),
 		Name: name,
 	}
 
@@ -26,11 +24,6 @@ func NewCategory(name string) (*Category, error) {
 		return nil, err
 	}
 	return category, nil
-}
-
-func (c Category) NewCategoryId() CategoryId {
-	id := CategoryId(pkg_entities.NewUUID())
-	return id
 }
 
 func (c *Category) validate() error {

@@ -9,7 +9,7 @@ import (
 )
 
 func Test_CreateStallment_Without_Counts(t *testing.T) {
-	cardId := entities.CreditcardId(pkg_entities.NewUUID())
+	cardId := pkg_entities.NewUUID()
 	st := entities.NewStallment(cardId, 0, 100.00)
 
 	expected := &entities.InstallMent{
@@ -24,7 +24,7 @@ func Test_CreateStallment_Without_Counts(t *testing.T) {
 }
 
 func Test_CreateStallment_with_counts(t *testing.T) {
-	cardId := entities.CreditcardId(pkg_entities.NewUUID())
+	cardId := pkg_entities.NewUUID()
 	st := entities.NewStallment(cardId, 2, 100.00)
 	expected := &entities.InstallMent{
 		CreditCardId:       cardId,

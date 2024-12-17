@@ -1,8 +1,6 @@
 package pkg_entities
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 )
 
@@ -19,13 +17,3 @@ func NewUUIDFromString(id string) (*UUID, error) {
 	}
 	return &parsedId, nil
 }
-
-func NewIdStruct[T any](id string) (T, error) {
-	nid, err := NewUUIDFromString(id)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return T(&nid), err
-}
-

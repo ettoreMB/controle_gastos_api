@@ -1,10 +1,9 @@
 package mapper_test
 
 import (
-	"crypto/rand"
 	mapper "ettoreMB/controle_gastos/internal/database/mappers"
+	pkg_entities "ettoreMB/controle_gastos/pkg/entities"
 	db "ettoreMB/controle_gastos/sqlc/db_out"
-	"log"
 	"testing"
 	"time"
 
@@ -12,42 +11,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func generateUUID() [16]byte {
-	var uuid [16]byte
-	_, err := rand.Read(uuid[:]) // Fill the array with random bytes
-	if err != nil {
-		log.Fatalf("Failed to generate UUID: %v", err)
-	}
-
-	// Set version (4) in the most significant 4 bits of byte 6
-	uuid[6] = (uuid[6] & 0x0F) | 0x40
-
-	// Set variant (RFC 4122) in the most significant 2 bits of byte 8
-	uuid[8] = (uuid[8] & 0x3F) | 0x80
-
-	return uuid
-}
-
 func TestExpensePgToDomainMapper(t *testing.T) {
-	uuid := generateUUID()
+	uuid := pkg_entities.NewUUID()
 
 	dbExpense := db.Expense{
-		ID: pgtype.UUID{
-			Bytes: uuid,
-			Valid: true,
-		},
-		Name:  "Test Expense",
-		Value: 100.0,
-		CategoryID: pgtype.UUID{
-			Bytes: uuid,
-			Valid: true,
-		},
-		PaymentMethodID: pgtype.UUID{
-			Bytes: uuid,
-			Valid: true,
-		},
-		Status:          pgtype.Text{Valid: true, String: "Paid"},
-		TransactionDate: pgtype.Timestamptz{Time: time.Now(), Valid: true},
+		ID:                    uuid,
+		Status:                pgtype.Text{Valid: true, String: "Paid"},
+		Name:                  "Test Expense",
+		Value:                 100.0,
+		CategoryID:            uuid,
+		PaymentMethodID:       uuid,
+		CreditCardID:          uuid,
+		InstallmentCount:      pgtype.Int4{Int32: 1, Valid: true},
+		CurrentInstallment:    pgtype.Int4{Int32: 1, Valid: true},
+		InstallmentCountValue: pgtype.Float8{Float64: 100.0, Valid: true},
+		TransactionDate:       time.Now(),
 	}
 
 	expense, err := mapper.ExpensePgToDomainMapper(dbExpense)

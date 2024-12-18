@@ -10,7 +10,7 @@ import (
 )
 
 const gettExpenses = `-- name: GettExpenses :many
-SELECT id, name, value, category_id, payment_method_id, status, credit_card_id, installment_count, current_installment, installment_count_value, transaction_date FROM expenses
+SELECT id, name, value, category_id, payment_method_id, credit_card_id, status, installment_count, current_installment, installment_count_value, transaction_date FROM expenses
 ORDER BY transaction_date DESC
 `
 
@@ -29,8 +29,8 @@ func (q *Queries) GettExpenses(ctx context.Context) ([]Expense, error) {
 			&i.Value,
 			&i.CategoryID,
 			&i.PaymentMethodID,
-			&i.Status,
 			&i.CreditCardID,
+			&i.Status,
 			&i.InstallmentCount,
 			&i.CurrentInstallment,
 			&i.InstallmentCountValue,

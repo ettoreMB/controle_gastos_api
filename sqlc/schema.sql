@@ -3,9 +3,9 @@ CREATE TABLE IF NOT EXISTS expenses (
   name varchar(100) NOT NULL, 
   value float NOT NULL,
   category_id uuid NOT NULL,
-  payment_method_id uuid NOT NULL,
+  payment_method_id uuid,
+  credit_card_id uuid,
   status varchar(10) DEFAULT("pending"),
-  credit_card_id UUID,
   installment_count int,
   current_installment int,
   installment_count_value float,
@@ -17,4 +17,6 @@ CREATE TABLE IF NOT EXISTS expenses (
 CREATE TABLE  IF NOT EXISTS status  (
   name varchar(10) PRIMARY KEY DEFAULT("pending")
 );
+
+
 

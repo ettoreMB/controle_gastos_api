@@ -5,21 +5,24 @@
 package db
 
 import (
+	"time"
+
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Expense struct {
-	ID                    pgtype.UUID
+	ID                    uuid.UUID
 	Name                  string
 	Value                 float64
-	CategoryID            pgtype.UUID
-	PaymentMethodID       pgtype.UUID
+	CategoryID            uuid.UUID
+	PaymentMethodID       uuid.UUID
+	CreditCardID          uuid.UUID
 	Status                pgtype.Text
-	CreditCardID          pgtype.UUID
 	InstallmentCount      pgtype.Int4
 	CurrentInstallment    pgtype.Int4
 	InstallmentCountValue pgtype.Float8
-	TransactionDate       pgtype.Timestamptz
+	TransactionDate       time.Time
 }
 
 type Status struct {

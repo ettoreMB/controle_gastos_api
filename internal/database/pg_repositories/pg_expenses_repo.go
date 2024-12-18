@@ -9,31 +9,33 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type PGpensesRepository struct {
-	db  *db.Queries
-	ctx context.Context
+type PGEpensesRepository struct {
+	ctx  context.Context
+	conn *pgx.Conn
 }
 
-func NewPGExpensesRepository(conn *pgx.Conn) *PGpensesRepository {
-	repo := &PGpensesRepository{db: nil, ctx: context.Background()}
-	repo.db = db.New(conn)
+func NewPGExpensesRepository(ctx context.Context, conn *pgx.Conn) *PGEpensesRepository {
+	repo := &PGEpensesRepository{
+		ctx:  ctx,
+		conn: conn,
+	}
 	return repo
 
 }
 
-func (r *PGpensesRepository) Create(expense entities.Expense) error {
+func (r *PGEpensesRepository) Create(expense entities.Expense) error {
 
 	// _, err := r.db.Exec("INSERT INTO expenses () VALUES (?, ?)", expense.Name, expense.Value, expense.CategoryId, expense.PaymentMethodId, expense.TransactionDate, expense) // Adjust the SQL
 	return nil
 }
 
-func (r *PGpensesRepository) GetByID(id string) (*entities.Expense, error) {
+func (r *PGEpensesRepository) GetByID(id string) (*entities.Expense, error) {
 	return nil, nil
 }
 
-func (r *PGpensesRepository) GetAll() ([]entities.Expense, error) {
+func (r *PGEpensesRepository) GetAll() ([]entities.Expense, error) {
 
-	expensesdb, err := r.db.GettExpenses(context.Background())
+	expensesdb, err := db.Queries.(r.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50,10 +52,10 @@ func (r *PGpensesRepository) GetAll() ([]entities.Expense, error) {
 	return expenses, nil
 }
 
-func (r *PGpensesRepository) Update(item entities.Expense) error {
+func (r *PGEpensesRepository) Update(item entities.Expense) error {
 	return nil
 }
 
-func (r *PGpensesRepository) Delete(id string) error {
+func (r *PGEpensesRepository) Delete(id string) error {
 	return nil
 }
